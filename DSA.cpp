@@ -966,3 +966,147 @@
 //     cout << "Max Subarray Sum with KADANE'S ALGORITHM: " << maxSum << endl;
 //     return 0;
 // }
+
+
+////////////////////////////////////////////////////// CHAPTER none Moore's Voting Algorithm & Pair Sum (25-10-2026)
+///// Return pair in sorted array with target sum. 
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+///// Unoptimized way 
+
+// vector<int> pairSum(vector<int> nums, int target){
+//     vector<int> ans;
+//     int n = nums.size();
+
+//     for(int i = 0; i < n; i++){
+//         for(int j = i + 1; j < n; j++){
+//             if(nums[i] + nums[j] == target){
+//                 ans.push_back(i);
+//                 ans.push_back(j);
+//                 return ans;
+//             }
+//         }
+//     }
+//     return ans;
+// }
+
+///// Optimize way 
+
+// vector<int> pairSum(vector<int> nums, int target){
+//     int n = nums.size();
+//     int pS, i = 0, j = n -1;
+//     vector<int> ans;
+    
+//     while(i < j){
+//         pS = nums[i] + nums[j];
+
+//         if(pS < target){
+//             i++;
+//         }
+//         else if(pS > target){
+//             j--;
+//         }
+//         else{
+//             ans.push_back(i);
+//             ans.push_back(j);
+//             return ans;
+//         }
+//     }
+//     return ans;
+// }
+
+// int main(){
+//     /// Pair Sum 
+//     vector<int> nums = {2,7,11,15};
+//     vector<int> ans = pairSum(nums, 13);
+
+//     cout << ans[0] << ", " << ans[1] << endl;
+//     return 0;
+// }
+
+//// Majority Element
+#include <iostream>
+#include <vector>
+#include <algorithm> /// for Sorting
+using namespace std;
+////// 1) Brute Force Approach
+int majorityElementBruteForce(vector<int> nums){
+    int n = nums.size();
+
+    for(int val : nums){
+        int Frequency = 0;
+        for(int elm : nums){
+            if(elm == val){
+                Frequency++;
+            }
+        }
+        if(Frequency > (n/2)){
+            return val;
+        }
+    }
+    return -1;
+}
+///// Optimized way
+int majorityElementOptimizedSorted(vector<int> nums){
+    int n = nums.size();
+
+    sort(nums.begin(), nums.end());
+
+    int Frequency = 1, ans = nums[0];
+    for(int i = 1; i < n; i++){
+        if(nums[i] == nums[i-1]){
+            Frequency++;
+        }
+        else{
+            ans = nums[i];
+        }
+        if(Frequency > n/2){
+            return ans;
+        }
+    }
+    return ans;
+}
+
+int majorityElementMoorsVoting(vector<int>nums){
+    int n = nums.size();
+
+    int freq = 0, ans = 0;
+    for(int i = 0; i < n; i++){
+        if(freq == 0){
+            ans = nums[i];
+        }
+        if(ans == nums[i]){
+            freq++;
+        }
+        else{
+            freq--;
+        }
+    }
+    int count = 0;
+    for(int v : nums){
+        if(v == ans){
+            count++;
+        }
+    }
+    if(count > n /2){
+        return ans;
+    }
+    else {
+        return -1;
+    }
+}
+
+
+int main(){
+    vector<int> nums = {1,2,2,2,1};
+    // cout << majorityElementBruteForce(nums);
+    // cout << majorityElementOptimizedSorted(nums);
+    cout << majorityElementMoorsVoting(nums);
+    return 0;
+}
+
+
+
