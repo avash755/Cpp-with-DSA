@@ -1028,85 +1028,226 @@
 // }
 
 //// Majority Element
-#include <iostream>
-#include <vector>
-#include <algorithm> /// for Sorting
+// #include <iostream>
+// #include <vector>
+// #include <algorithm> /// for Sorting
+// using namespace std;
+// ////// 1) Brute Force Approach
+// int majorityElementBruteForce(vector<int> nums){
+//     int n = nums.size();
+
+//     for(int val : nums){
+//         int Frequency = 0;
+//         for(int elm : nums){
+//             if(elm == val){
+//                 Frequency++;
+//             }
+//         }
+//         if(Frequency > (n/2)){
+//             return val;
+//         }
+//     }
+//     return -1;
+// }
+// ///// Optimized way
+// int majorityElementOptimizedSorted(vector<int> nums){
+//     int n = nums.size();
+
+//     sort(nums.begin(), nums.end());
+
+//     int Frequency = 1, ans = nums[0];
+//     for(int i = 1; i < n; i++){
+//         if(nums[i] == nums[i-1]){
+//             Frequency++;
+//         }
+//         else{
+//             ans = nums[i];
+//         }
+//         if(Frequency > n/2){
+//             return ans;
+//         }
+//     }
+//     return ans;
+// }
+
+// int majorityElementMoorsVoting(vector<int>nums){
+//     int n = nums.size();
+
+//     int freq = 0, ans = 0;
+//     for(int i = 0; i < n; i++){
+//         if(freq == 0){
+//             ans = nums[i];
+//         }
+//         if(ans == nums[i]){
+//             freq++;
+//         }
+//         else{
+//             freq--;
+//         }
+//     }
+//     int count = 0;
+//     for(int v : nums){
+//         if(v == ans){
+//             count++;
+//         }
+//     }
+//     if(count > n /2){
+//         return ans;
+//     }
+//     else {
+//         return -1;
+//     }
+// }
+
+
+// int main(){
+//     vector<int> nums = {1,2,2,2,1};
+//     // cout << majorityElementBruteForce(nums);
+//     // cout << majorityElementOptimizedSorted(nums);
+//     cout << majorityElementMoorsVoting(nums);
+//     return 0;
+// }
+
+////////////////////////////////////////////////////// CHAPTER 12 (26-10-2026)
+///// Time & Space Complexity 
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// void merge(int arr[], int si, int mid, int ei){
+//     vector<int> temp;
+//     int i = si, j = mid + 1;
+
+//     while(i <= mid && j <= ei){
+//         if(arr[i] <= arr[j]){
+//             temp.push_back(arr[i++]);
+//         } else{
+//             temp.push_back(arr[j++]);  
+//         }
+//     }
+
+//     while(i <= mid){
+//         temp.push_back(arr[i++]);
+//     }
+//     while(j <= ei){
+//         temp.push_back(arr[j++]);
+//     }
+
+//     for(int idx = si, x = 0; idx <=ei; idx++){
+//         arr[idx] = temp[x++];
+//     }
+// }
+// void mergeSort(int arr[], int si, int ei){
+//     if(si >= ei){
+//         return;
+//     }
+
+//     int mid = si + (ei-si) / 2;
+    
+//     mergeSort(arr, si, mid);
+//     mergeSort(arr, mid+1, ei);
+
+//     merge(arr, si, mid, ei);
+// }
+
+
+////////////////////////////////////////////////////// CHAPTER 13 (14-11-2026)
+///// Some Array Questions 
+
+/// Binary Exponentiation
+// #include<iostream>
+// using namespace std;
+
+// int main(){
+//     double x = 2.00000; int n = -10;
+
+//     long binForm = n;
+//     double ans = 1;
+
+//     /// Corner cases 
+//     if(n == 0) return 1.0;
+//     if(x == 0) return 0.0;
+//     if(x == 1) return 1.0;
+//     if(x == -1 && n % 2 == 0) return 1.0;
+//     if(x == -1 && n % 2 != 0) return -1.0;
+//     /// Calculate the negative number 
+//     if( n < 0){
+//         x = 1 / x;
+//         binForm = -binForm;
+//     }
+//     cout << "Binform: " << binForm << endl;
+//     while(binForm > 0){
+//         cout << binForm << endl;
+//         if(binForm % 2 == 1){
+//             ans *= x;
+//         }
+//         x *= x;
+//         binForm /= 2;
+//     }
+//     cout << "ANS: " << ans << endl;
+// }
+
+/// Stock Buy & Sell
+// #include<iostream>
+// using namespace std;
+
+// int main(){
+//     int prices[] = {7,5,4,3,9,3,1};
+//     int maxProfit = 0, bestBuy = prices[0];
+
+//     for(int i = 1; i < 6; i++){
+//         /// thinks like everyday is a sells day
+//         if(prices[i] > bestBuy){
+//             maxProfit = max(maxProfit, prices[i] - bestBuy);
+//         }
+//         bestBuy = min(bestBuy, prices[i]);
+//     }
+//     cout << "best selling day is: Day" << maxProfit << endl;
+
+//     return 0;
+
+// }
+
+/// Container with most Water 
+// (Brute Approach) 
+
+#include<iostream>
 using namespace std;
-////// 1) Brute Force Approach
-int majorityElementBruteForce(vector<int> nums){
-    int n = nums.size();
 
-    for(int val : nums){
-        int Frequency = 0;
-        for(int elm : nums){
-            if(elm == val){
-                Frequency++;
-            }
-        }
-        if(Frequency > (n/2)){
-            return val;
-        }
-    }
-    return -1;
-}
-///// Optimized way
-int majorityElementOptimizedSorted(vector<int> nums){
-    int n = nums.size();
+// int main(){
+//     int height[] = {1,8,6,3,5,4,8,3,7};
+//     int s = sizeof(height) / sizeof(height[0]);
+//     int width, length, ans, maxWater = 0;
 
-    sort(nums.begin(), nums.end());
+//     for(int i = 0; i < s; i++){
+//         for(int j = i + 1; j < s; j++){
+//             width = j - i;
+//             length = min(height[i], height[j]);
 
-    int Frequency = 1, ans = nums[0];
-    for(int i = 1; i < n; i++){
-        if(nums[i] == nums[i-1]){
-            Frequency++;
-        }
-        else{
-            ans = nums[i];
-        }
-        if(Frequency > n/2){
-            return ans;
-        }
-    }
-    return ans;
-}
+//             ans = width * length;
+//             maxWater = max(maxWater, ans);
+//         }
+//     }
+//     cout << "Max Water: " << maxWater;
+//     return 0;
+// }
 
-int majorityElementMoorsVoting(vector<int>nums){
-    int n = nums.size();
-
-    int freq = 0, ans = 0;
-    for(int i = 0; i < n; i++){
-        if(freq == 0){
-            ans = nums[i];
-        }
-        if(ans == nums[i]){
-            freq++;
-        }
-        else{
-            freq--;
-        }
-    }
-    int count = 0;
-    for(int v : nums){
-        if(v == ans){
-            count++;
-        }
-    }
-    if(count > n /2){
-        return ans;
-    }
-    else {
-        return -1;
-    }
-}
-
-
+///// 2 Pointer Approach
 int main(){
-    vector<int> nums = {1,2,2,2,1};
-    // cout << majorityElementBruteForce(nums);
-    // cout << majorityElementOptimizedSorted(nums);
-    cout << majorityElementMoorsVoting(nums);
+    int height[] = {1,8,6,3,5,4,8,3,7};
+    int s = sizeof(height) / sizeof(height[0]);
+    int width, length, currWater = 0, maxWater = 0, lp = 0, rp = s-1;
+
+    while(lp < rp){
+        width = rp - lp;
+        length = min(height[lp], height[rp]);
+        currWater = width * length;
+
+        maxWater = max(currWater, maxWater);
+
+        height[lp] < height[rp] ? lp++ : rp--;
+    }
+    cout << maxWater;
     return 0;
 }
-
-
-
