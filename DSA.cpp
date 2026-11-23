@@ -1212,42 +1212,135 @@
 /// Container with most Water 
 // (Brute Approach) 
 
-#include<iostream>
-using namespace std;
+// #include<iostream>
+// using namespace std;
 
+// // int main(){
+// //     int height[] = {1,8,6,3,5,4,8,3,7};
+// //     int s = sizeof(height) / sizeof(height[0]);
+// //     int width, length, ans, maxWater = 0;
+
+// //     for(int i = 0; i < s; i++){
+// //         for(int j = i + 1; j < s; j++){
+// //             width = j - i;
+// //             length = min(height[i], height[j]);
+
+// //             ans = width * length;
+// //             maxWater = max(maxWater, ans);
+// //         }
+// //     }
+// //     cout << "Max Water: " << maxWater;
+// //     return 0;
+// // }
+
+// ///// 2 Pointer Approach
 // int main(){
 //     int height[] = {1,8,6,3,5,4,8,3,7};
 //     int s = sizeof(height) / sizeof(height[0]);
-//     int width, length, ans, maxWater = 0;
+//     int width, length, currWater = 0, maxWater = 0, lp = 0, rp = s-1;
 
-//     for(int i = 0; i < s; i++){
-//         for(int j = i + 1; j < s; j++){
-//             width = j - i;
-//             length = min(height[i], height[j]);
+//     while(lp < rp){
+//         width = rp - lp;
+//         length = min(height[lp], height[rp]);
+//         currWater = width * length;
 
-//             ans = width * length;
-//             maxWater = max(maxWater, ans);
-//         }
+//         maxWater = max(currWater, maxWater);
+
+//         height[lp] < height[rp] ? lp++ : rp--;
 //     }
-//     cout << "Max Water: " << maxWater;
+//     cout << maxWater;
 //     return 0;
 // }
 
-///// 2 Pointer Approach
+/// Product of Array Except Self (22/11/2026)
+#include<iostream>
+#include<vector>
+using namespace std;
+
+/// with / operator
+// int main(){
+//     vector<int> nums = {1,2,3,4};
+//     vector<int> ans;
+    
+//     int s = nums.size(), total = 1;
+
+//     for(int x : nums){
+//         total *= x;
+//     }
+//     for(int i = 1; i <= s; i++){
+//         ans.push_back(total/i);
+//     }
+//     for(int y : ans){
+//         cout << y << endl;
+//     }
+//     return 0;
+// }
+
+/// BruteForce Approach 
+
+// int main(){
+//     vector<int> nums = {1,2,3,4};
+//     int s = nums.size();
+//     vector<int> ans(s, 1);
+
+//     for(int i = 0; i < s; i++){
+//         for(int j = 0; j < s; j++){
+//             if(i != j){
+//                ans[i] *= nums[j];
+//             }
+//         }
+//     }
+//     for(int x : ans){
+//         cout << x << endl;
+//     }
+//     return 0;
+// }
+
+
+/// Optimize Approach no time complexity
+
+// int main(){
+//     vector<int> nums = {1,2,3,4};
+
+//     int s = nums.size();
+//     vector<int> prefix (s, 1);
+//     vector<int> surfix(s,1);
+//     vector<int> ans(s,1);
+
+//     for(int i = 1; i < s; i++){
+//         prefix[i] = prefix[i-1] * nums[i-1];
+//         cout << "Prefix: " << prefix[i] << endl;
+//     }
+//     for(int i = s-2; i >= 0; i--){
+//         surfix[i] = surfix[i+1] * nums[i+1];
+//         cout << "Surfix: " << surfix[i]<< endl;
+//     }
+//     for(int i = 0; i < s; i++){
+//         ans[i] = surfix[i] * prefix[i];
+//     }
+//     for(int x:ans){
+//         cout << "ans: " << x << endl;
+//     }
+//     return 0;
+// }
+
+/// Optimaize Space and time complexity 
+
 int main(){
-    int height[] = {1,8,6,3,5,4,8,3,7};
-    int s = sizeof(height) / sizeof(height[0]);
-    int width, length, currWater = 0, maxWater = 0, lp = 0, rp = s-1;
+    vector<int> nums = {1,2,3,4};
+    int s = nums.size();
+    vector<int> ans(s,1);
 
-    while(lp < rp){
-        width = rp - lp;
-        length = min(height[lp], height[rp]);
-        currWater = width * length;
-
-        maxWater = max(currWater, maxWater);
-
-        height[lp] < height[rp] ? lp++ : rp--;
+    for(int i = 1; i < s; i++){
+        ans[i] = ans[i-1] * nums[i-1];
     }
-    cout << maxWater;
+    int surfix = 1;
+    for(int i = s-2; i >= 0; i--){
+        surfix *= nums[i+1];
+        ans[i] *= surfix;
+    }
+    for(int x:ans){
+        cout << "ans: " << x << endl;
+    }
     return 0;
 }
